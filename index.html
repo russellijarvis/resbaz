@@ -1,0 +1,95 @@
+
+         
+
+<!DOCTYPE html>
+<html> 
+    <head> 
+        <link rel="stylesheet" type="text/css" href="style.css">
+    </head> 
+
+    <body>
+           
+
+  <!-- Import Sigma JS -->
+  <script src="network2.js"></script>
+  <script src="sigma.min.js"></script>
+  <script src="sigma.layout.forceAtlas2.min.js"></script>
+  <script src="sigma.parsers.json.min.js"></script>
+
+  <!-- Add some CSS so we can see the graph! -->
+  <style>
+    #network-graph {
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      position: absolute;
+      
+      
+    }
+  </style>
+
+  <!-- A placeholder for the graph -->
+  <div id="network-graph"></div>
+
+  <!-- The most basic usage of the Sigma JSON parser -->
+  <script>
+  function getParameterByName(name) {
+    var match = RegExp('[?&]' + name + '=([^&]*)').exec(window.location.search);
+    return match && decodeURIComponent(match[1].replace(/\+/g, ' '));
+  };
+   sigma.parsers.json(  
+/*"/media/russell/Working_Space/3Drodentm/network.json"*/,
+    {container: 'network-graph'},
+    function(s) { //This function is passed an instance of Sigma s
+      nodeId = parseInt(getParameterByName('node_id'));
+      var selectedNode;
+      s.graph.nodes().forEach(function(node, i, a) {
+        if (node.id == nodeId) {
+          selectedNode = node;
+          return;
+        }
+      });
+      //Initialize nodes as a circle
+      s.graph.nodes().forEach(function(node, i, a) {
+        node.x = Math.cos(Math.PI * 2 * i / a.length);
+        node.y = Math.sin(Math.PI * 2 * i / a.length);
+      });
+      //Call refresh to render the new graph
+      s.refresh();
+      s.startForceAtlas2();
+      if (selectedNode != undefined){
+        s.cameras[0].goTo({x:selectedNode['read_cam0:x'],y:selectedNode['read_cam0:y'],ratio:0.1});
+      }
+    });
+  </script>
+
+
+
+                  
+
+
+
+
+    <!-- This is a comment -->
+    <body> 
+        <div class="title">3DrodentConnectivity </div>
+        <div> some text </div>
+        <div class="description"> 
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown  printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+  </div>
+  </div>        
+      </div>
+    
+        <img class='image' src="dog.jpg">        
+        
+        <svg class="chart">
+        <circle cx="25" cy="25" class="circ1">
+        <!--<circle cx="25" cy="25" r="150" class="circ1">-->
+
+        </circle>
+</svg>
+        
+      </body> 
+  </html>         
+
